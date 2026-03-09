@@ -8,12 +8,13 @@ import friend7 from '../assets/friend7.jpg'
 import friend8 from '../assets/friend8.jpg'
 import friend9 from '../assets/friend9.jpg'
 import {createContext} from "react";
-export interface ContextType {
-    page: string;
-    changePage: (item: string) => void;
-}
 
-export const Context = createContext<ContextType>({} as ContextType);
+// export interface ContextType {
+//     page: string;
+//     changePage: (item: string) => void;
+// }
+//
+// export const Context = createContext<ContextType>({} as ContextType);
 
 export const base_url = `https://sw-info-api.herokuapp.com`
 export const navItems = ['Home', 'About me', 'Star Wars', 'Contact'];
@@ -24,3 +25,8 @@ export const starWarsInfo = `Star Wars is an American epic space opera media fra
 The original film, later retitled Episode IV: A New Hope, was followed by the sequels Episode V: The Empire Strikes Back (1980) and Episode VI: Return of the Jedi (1983), forming the original Star Wars trilogy. Lucas later returned to the series to write and direct a prequel trilogy, consisting of Episode I: The Phantom Menace (1999), Episode II: Attack of the Clones (2002), and Episode III: Revenge of the Sith (2005). In 2012, Lucas sold his production company to Disney, relinquishing his ownership of the franchise. This led to a sequel trilogy, consisting of Episode VII: The Force Awakens (2015), Episode VIII: The Last Jedi (2017), and Episode IX: The Rise of Skywalker (2019).
 
 All nine films, collectively referred to as the "Skywalker Saga", were nominated for Academy Awards, with Oscars going to the first three releases. Together with the spin-off films Rogue One (2016) and Solo (2018), the combined box office revenue of Star Wars theatrical live-action films equals over US$10 billion, making Star Wars the third-highest-grossing film franchise in cinematic history.`
+
+
+export const Context = createContext({
+    page: navItems[0],
+    changePage: (page: string) => console.log(page)});

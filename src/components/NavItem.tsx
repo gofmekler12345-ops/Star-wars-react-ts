@@ -1,5 +1,6 @@
 import {Context} from "../utils/constants.ts";
 import {useContext} from "react";
+import Button from "../ui/Button.tsx";
 
 interface Props {
     itemTitle: string
@@ -8,7 +9,7 @@ interface Props {
 const NavItem = ({itemTitle}:Props) => {
     const {changePage } = useContext(Context);
     return (
-        <div onClick={() => changePage(itemTitle)} className={`bg-danger rounded-md px-3 border cursor-pointer hover:bg-red-500 hover:text-white`}>{itemTitle}</div>
+        <Button title={itemTitle} onClick={() => changePage(itemTitle)} >{itemTitle}</Button>
     )
 }
 
