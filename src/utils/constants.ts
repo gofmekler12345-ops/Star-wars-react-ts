@@ -9,6 +9,8 @@ import friend7 from '../assets/friend7.jpg'
 import friend8 from '../assets/friend8.jpg'
 import friend9 from '../assets/friend9.jpg'
 import {createContext} from "react";
+import type {Hero} from "./type.ts";
+
 
 // export interface ContextType {
 //     page: string;
@@ -18,7 +20,7 @@ import {createContext} from "react";
 // export const Context = createContext<ContextType>({} as ContextType);
 export const base_url = `https://sw-info-api.herokuapp.com`
 export const version = '/v1';
-export const characters = {
+export const characters: Record<string, Hero> = {
     luke: {
         name: "Luke Skywalker",
         img: friend0,
@@ -72,8 +74,8 @@ export const characters = {
 };
 
 export const navItems = ['Home', 'About me', 'Star Wars', 'Contact'];
-export const friends = [friend1, friend2, friend3, friend4, friend5, friend6, friend7, friend8, friend9];
-export const defaultHero = 'luke';
+export const friends = Object.keys(characters);
+export const defaultHero = friends[0];
 export const period_month = 30 * 24 * 60 * 60 * 1000;
 export const starWarsInfo = `Star Wars is an American epic space opera media franchise created by George Lucas. The franchise began with the original Star Wars film (1977) and quickly became a worldwide pop culture phenomenon. It has expanded into various films and other media, including television series, video games, novels, comic books, theme park attractions, and themed areas, comprising an all-encompassing fictional universe. Star Wars is the fourth highest-grossing media franchise of all time.
 
@@ -83,5 +85,5 @@ All nine films, collectively referred to as the "Skywalker Saga", were nominated
 
 
 export const Context = createContext({
-    page: navItems[0],
-    changePage: (page: string) => console.log(page)});
+    hero: defaultHero,
+    changeHero: (hero: string) => console.log(hero)});

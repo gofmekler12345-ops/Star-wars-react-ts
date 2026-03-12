@@ -1,18 +1,16 @@
 import Navigation from "./Navigation.tsx";
-import {characters, defaultHero} from "../utils/constants.ts";
-import {useParams} from "react-router";
+import {characters, Context, } from "../utils/constants.ts";
+import {useContext} from "react";
 
 
 const Header = () => {
 
-    const {heroId}= useParams();
-    const currentHero= (heroId||defaultHero) as keyof typeof characters;
-    const heroData=characters[currentHero];
+    const {hero}=useContext(Context);
 
     return (
         <header className="rounded-t-3xl bg-gray">
-            <Navigation />
-            <h1 className="text-center text-4xl py-6">{heroData.name}</h1>
+            <Navigation/>
+            <h1 className="text-center text-4xl py-6">{characters[hero as keyof typeof characters].name}</h1>
         </header>
     )
 }
