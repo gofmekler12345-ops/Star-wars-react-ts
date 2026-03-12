@@ -1,11 +1,9 @@
-const Text = ({info}:{info:string}) => {
+const Text = ({children}: { children: string }) => {
     return (
-        <div className='"text-3xl text-justify leading-normal tracking-widest"'>
-            {info}
-        </div>
-    );
-};
+        <p className="text-3xl text-justify leading-normal tracking-widest">
+            {children}
+        </p>
+    )
+}
 
 export default Text;
-
-//'w-full overflow-hidden rounded-lg border border-red-800/50 bg-gray-100 text-[#cc032380] p-[20px] text-xl'

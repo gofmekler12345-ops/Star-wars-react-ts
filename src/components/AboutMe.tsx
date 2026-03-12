@@ -1,48 +1,55 @@
-import { base_url } from "../utils/constants.ts";
-import { useEffect, useState } from "react";
-import type {DataInfo} from "../utils/type.ts";
+import {characters, defaultHero, period_month} from "../utils/constants.ts";
+import {useEffect, useState} from "react";
+import {useParams} from "react-router";
+import ErrorPage from "./ErrorPage.tsx";
 
 const AboutMe = () => {
-    const [hero, setHero] = useState<DataInfo>();
+    const {heroId = defaultHero} = useParams();
+    const [hero, setHero] = useState(() => {
+        const hero = JSON.parse(localStorage.getItem(heroId)!);
+        if (hero && ((Date.now() - hero.timestamp) < period_month)) {
+            return hero.payload;
+        }
+    });
 
     useEffect(() => {
-        fetch(`${base_url}/v1/peoples/1`)
-            .then(response => response.json())
-            .then(data => {
-                const info:DataInfo= {
-                    name: data.name,
-                    gender: data.gender,
-                    birth_year: data.birth_year,
-                    height: data.height,
-                    mass: data.mass,
-                    hair_color: data.hair_color,
-                    skin_color: data.skin_color,
-                    eye_color: data.eye_color
-                };
-                setHero(info);
-            });
-    }, []);
+        if (!(heroId in characters)) {
+            return;
+        }
+        if (!hero) {
+            fetch(`${characters[heroId as keyof typeof characters].url}`)
+                .then(response => response.json())
+                .then(data => {
+                    const info = {
+                        name: data.name,
+                        gender: data.gender,
+                        birth_year: data.birth_year,
+                        height: data.height,
+                        mass: data.mass,
+                        hair_color: data.hair_color,
+                        skin_color: data.skin_color,
+                        eye_color: data.eye_color
+                    }
+                    setHero(info);
+                    localStorage.setItem(heroId, JSON.stringify({
+                        payload: info,
+                        timestamp: Date.now()
+                    }));
+                })
+        }
+    }, [heroId])
 
-    return (
-        <div className="mx-auto my-10 max-w-2xl">
-            {hero && (
-                <div className="overflow-hidden rounded-lg border border-red-800/50 bg-gray-100">
-                    {Object.keys(hero).map((key, index) => (
-                        <div key={key} className={`flex justify-between px-6 py-4 text-2xl ${index !== Object.keys(hero).length - 1 ? 'border-bottom border-red-800/20' : ''} border-b last:border-b-0`}
-                        >
-                            <span className="font-bold text-[#cc032380] capitalize">
-                                {key.replace('_', ' ')}:
-                            </span>
-
-                            <span className="text-[#cc032380]">
-                                {hero[key as keyof DataInfo]}
-                            </span>
-                        </div>
-                    ))}
+    return (heroId in characters) ? (
+        <>
+            {(!!hero) &&
+                <div className={'text-3xl text-justify tracking-widest leading-14 ml-8'}>
+                    {Object.keys(hero).map(key => <p key={key}>
+                        <span className={'text-3xl capitalize'}>{key.replace('_', ' ')}</span>: {hero[key]}
+                    </p>)}
                 </div>
-            )}
-        </div>
-    );
-};
+            }
+        </>
+    ) : <ErrorPage/>
+}
 
 export default AboutMe;

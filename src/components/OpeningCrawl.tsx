@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {base_url, starWarsInfo} from "../utils/constants.ts";
+import {base_url} from "../utils/constants.ts";
 import Text from "../ui/Text.tsx";
 
 const OpeningCrawl = () => {
@@ -19,9 +19,7 @@ const OpeningCrawl = () => {
         }
     }, [openingCrawl])
 
-    return (
-        <Text info={starWarsInfo}/>
-    )
+    return <Text>{openingCrawl || 'Loading'}</Text>
 
 }
 

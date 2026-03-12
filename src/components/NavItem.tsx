@@ -1,15 +1,16 @@
-import {Context} from "../utils/constants.ts";
-import {useContext} from "react";
 import Button from "../ui/Button.tsx";
+import {NavLink} from "react-router";
 
 interface Props {
     itemTitle: string
 }
 
-const NavItem = ({itemTitle}:Props) => {
-    const {changePage } = useContext(Context);
+const NavItem = ({itemTitle}: Props) => {
+
     return (
-        <Button title={itemTitle} onClick={() => changePage(itemTitle)} >{itemTitle}</Button>
+        <NavLink to={`/${itemTitle.toLowerCase()}`}>
+            <Button title={itemTitle}>{itemTitle}</Button>
+        </NavLink>
     )
 }
 
