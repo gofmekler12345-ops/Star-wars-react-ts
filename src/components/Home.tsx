@@ -15,7 +15,7 @@ const Home = () => {
         if (!(heroId in characters)) {
             return;
         }
-        changeHero(heroId);},[]);
+        changeHero(heroId);},[heroId, changeHero]);
 
     return (heroId in characters)?(
         <main>

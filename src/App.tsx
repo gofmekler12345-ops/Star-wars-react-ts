@@ -6,12 +6,12 @@ import {Context, defaultHero} from "./utils/constants.js";
 
 function App() {
     const [hero, setHero] = useState(defaultHero);
-    // const changePage = (itemTitle: string) => setPage(itemTitle);
+    const [headerTitle, setHeaderTitle] = useState("");
 
     return (
         <div className={'mx-2'}>
             <Context value={{
-                hero, changeHero: setHero
+                hero, changeHero: setHero, headerTitle, setHeaderTitle
             }}>
                 <Header/>
                 <Main/>

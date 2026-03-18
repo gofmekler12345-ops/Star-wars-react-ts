@@ -83,7 +83,16 @@ The original film, later retitled Episode IV: A New Hope, was followed by the se
 
 All nine films, collectively referred to as the "Skywalker Saga", were nominated for Academy Awards, with Oscars going to the first three releases. Together with the spin-off films Rogue One (2016) and Solo (2018), the combined box office revenue of Star Wars theatrical live-action films equals over US$10 billion, making Star Wars the third-highest-grossing film franchise in cinematic history.`
 
+export interface ContextType{
+    hero: string;
+    changeHero: (hero: string) => void;
+    headerTitle: string;
+    setHeaderTitle:(title:string)=> void;
+}
 
-export const Context = createContext({
+export const Context = createContext<ContextType>({
     hero: defaultHero,
-    changeHero: (hero: string) => console.log(hero)});
+    changeHero: (hero: string) => console.log(hero),
+    headerTitle: "",
+    setHeaderTitle:()=>{}
+});
