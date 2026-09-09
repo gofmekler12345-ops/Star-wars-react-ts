@@ -3,6 +3,9 @@ import { useEffect, useState} from "react";
 
 import ErrorPage from "./ErrorPage.tsx";
 import {useValidHero} from "../hooks/customhooks.ts";
+import * as React from "react";
+
+const URL = 'gate_away_url';
 
 const Contact = () => {
     const [planets, setPlanets] = useState<string[]>(() => {
@@ -34,11 +37,45 @@ const Contact = () => {
         }
     }, [planets.length])
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const firstname = (form.elements.namedItem('firstname') as HTMLInputElement).value;
+        const lastname = (form.elements.namedItem('lastname') as HTMLInputElement).value;
+        const planet = (form.elements.namedItem('planet') as HTMLSelectElement).value;
+        const subject = (form.elements.namedItem('subject') as HTMLTextAreaElement).value;
+        const currentHero = localStorage.getItem('hero') || 'hero';
+        const bodyData = {
+            name: `${firstname} ${lastname}`.trim(),
+            email: `gofmekler12345+${currentHero}@gmail.com`,
+            message: `Planet: ${planet}\n\n${subject}`,
+        }
+        try {
+            const res = await fetch(URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyData)
+            });
+            const data = await res.json();
+            console.log(data);
+            if(res.ok){
+                alert('Message sent successfully');
+                form.reset();
+            } else {
+                alert('Message failed to send');
+            }
+        }
+        catch (error) {
+            console.log(error);
+            alert('Error sending message');
+        }
+    }
+
     return isHeroValid ? (
         <div className="container mx-auto my-10 max-w-2xl bg-[#f2f2f2] p-[20px] rounded-[5px]">
-            <form onSubmit={e => {
-                e.preventDefault();
-            }}>
+            <form onSubmit={handleSubmit}>
                 <div className='w-full mb-[16px]'>
                     <label className='block w-full text-[#cc032380] mb-[6px] text-2xl'>First Name
                         <input className='w-full border border-[#ccc] rounded-[4px] box-border mt-[6px]' type="text"
